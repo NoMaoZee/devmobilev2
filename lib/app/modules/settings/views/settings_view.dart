@@ -55,18 +55,6 @@ class SettingsView extends GetView<SettingsController> {
               controller.logout();
             }),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              icon: Icon(Icons.exit_to_app),
-              label: Text('Keluar Akun'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                textStyle: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                controller.logout();
-              },
-            ),
           ],
         ),
       ),

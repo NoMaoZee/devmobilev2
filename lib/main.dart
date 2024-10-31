@@ -7,6 +7,7 @@ import 'app/theme/app_theme.dart';
 void main() {
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Laundry App",
       initialRoute: AppPages.initial, // Updated to use new naming
       getPages: AppPages.routes,

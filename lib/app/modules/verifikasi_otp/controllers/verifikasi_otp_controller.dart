@@ -3,6 +3,14 @@ import 'package:devmobilev2/app/routes/app_pages.dart';
 
 class VerifikasiOtpController extends GetxController {
   var otpCode = ['', '', '', ''].obs;
+  var phoneNumber = ''.obs; // Untuk menyimpan nomor telepon
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Mengambil phoneNumber dari arguments
+    phoneNumber.value = Get.arguments['phoneNumber'];
+  }
 
   void setOtpCode(int index, String value) {
     if (value.isNotEmpty) {
@@ -33,7 +41,7 @@ class VerifikasiOtpController extends GetxController {
   void resendOtp() {
     Get.snackbar(
       'Resent',
-      'OTP has been resent to your number',
+      'OTP has been resent to your number: ${phoneNumber.value}', // Tampilkan nomor telepon
       snackPosition: SnackPosition.BOTTOM,
     );
   }

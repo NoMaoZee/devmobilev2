@@ -85,7 +85,8 @@ class RegisterView extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: controller.register,
+                    onPressed:
+                        controller.register, // Panggil fungsi register di sini
                     child: const Text('Register'),
                   ),
                 ),

@@ -9,109 +9,103 @@ class VerifikasiOtpView extends GetView<VerifikasiOtpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Get.back();
-                    },
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.back(),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter OTP',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Obx(() => Text(
+                  'Please enter OTP sent to +${controller.phoneNumber}',
+                  style: TextStyle(
+                    color: Colors.grey[600],
                   ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Enter OTP',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Please enter OTP sent to +62 0123456789',
-                style: TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(4, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[200],
-                    ),
-                    child: TextField(
-                      onChanged: (value) => controller.setOtpCode(index, value),
-                      maxLength: 1,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        counterText: '',
-                        border: InputBorder.none,
+                )),
+            const SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                4,
+                (index) => SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    maxLength: 1,
+                    onChanged: (value) {
+                      controller.setOtpCode(index, value);
+                      if (value.isNotEmpty && index < 3) {
+                        FocusScope.of(context).nextFocus();
+                      }
+                    },
+                    decoration: InputDecoration(
+                      counterText: "",
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                  );
-                }),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: controller.confirmOtp,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Confirm',
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              TextButton(
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: controller.confirmOtp,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: const Text('Confirm'),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: TextButton(
                 onPressed: controller.resendOtp,
-                child: const Text(
-                  'Resend OTP',
-                  style: TextStyle(color: Colors.black),
+                child: Text(
+                  'Did not receive OTP? Resend OTP',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                  ),
                 ),
               ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Have an account? ',
-                    style: TextStyle(color: Colors.grey),
+            ),
+            const Spacer(),
+            Center(
+              child: GestureDetector(
+                onTap: () => Get.toNamed(Routes.login),
+                child: const Text(
+                  "Remember Password? Login",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.login); // Perbaiki di sini
-                    },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

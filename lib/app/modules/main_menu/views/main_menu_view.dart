@@ -107,7 +107,7 @@ class MainMenuView extends GetView<MainMenuController> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF393E46),
+        backgroundColor: Colors.white,
         selectedItemColor: const Color.fromARGB(255, 57, 57, 57),
         unselectedItemColor: const Color.fromARGB(255, 82, 82, 82),
         currentIndex:

@@ -13,6 +13,8 @@ class RegisterController extends GetxController {
   void register() {
     logger.i("Register button clicked");
     // Tambahkan logika registrasi di sini
+    // Setelah berhasil registrasi, navigasi ke halaman login
+    Get.toNamed('/login');
   }
 
   // Fungsi untuk navigasi ke halaman login
