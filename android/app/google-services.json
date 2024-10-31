@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "513912944319",
+    "project_id": "devmobilev3-eba2c",
+    "storage_bucket": "devmobilev3-eba2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513912944319:android:0cee5f17a0b734b5a6b80a",
+        "android_client_info": {
+          "package_name": "com.almeraa.laundry"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1mTE27Wn-SHTg9ZwHYPoguNu7Kp_C8yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
