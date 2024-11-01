@@ -11,7 +11,7 @@ class PhoneInputView extends GetView<PhoneInputController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Get.back(),
         ),
         backgroundColor: Colors.transparent,
@@ -25,8 +25,9 @@ class PhoneInputView extends GetView<PhoneInputController> {
             const Text(
               'Enter Your Phone Number',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 8),
@@ -34,6 +35,7 @@ class PhoneInputView extends GetView<PhoneInputController> {
               'We will send an OTP to verify your phone number',
               style: TextStyle(
                 color: Colors.grey[600],
+                fontSize: 16,
               ),
             ),
             const SizedBox(height: 32),
@@ -49,24 +51,39 @@ class PhoneInputView extends GetView<PhoneInputController> {
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: controller.onSendOtp,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: const Text('Send OTP'),
+              child: GestureDetector(
+                onTapDown: (_) => controller.buttonScale.value = 0.95,
+                onTapUp: (_) => controller.buttonScale.value = 1.0,
+                onTap: controller.onSendOtp,
+                child: Obx(() => Transform.scale(
+                      scale: controller.buttonScale.value,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          'Send OTP',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                    )),
               ),
             ),
             const Spacer(),
             Center(
               child: GestureDetector(
-                onTap: () => controller.backToLogin(),
+                onTap: controller.backToLogin,
                 child: const Text(
                   "Remember Password? Login",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),

@@ -6,6 +6,8 @@ class PhoneInputController extends GetxController {
   final Logger _logger = Logger();
 
   var phoneNumber = ''.obs;
+  var buttonScale =
+      1.0.obs; // Tambahkan variabel buttonScale dengan nilai awal 1.0
 
   void onSendOtp() {
     if (phoneNumber.value.isNotEmpty) {

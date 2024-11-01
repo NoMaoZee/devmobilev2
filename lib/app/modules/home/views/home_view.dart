@@ -1,5 +1,3 @@
-// 4. Update HomeView untuk menambahkan tombol navigasi
-// lib/app/modules/home/views/home_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
@@ -11,33 +9,41 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Almeraa Laundry',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Almeraa Laundry',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    'Clean and Wash',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                ],
               ),
-              const Text(
-                'Clean and Wash',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
+            ),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: ElevatedButton(
                 onPressed: controller.navigateToPhoneInput,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
+                    horizontal: 143,
                     vertical: 16,
                   ),
                   shape: RoundedRectangleBorder(
@@ -52,8 +58,8 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

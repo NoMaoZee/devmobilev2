@@ -1,5 +1,3 @@
-// lib/app/modules/main_menu/views/main_menu_view.dart
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/main_menu_controller.dart';
@@ -11,10 +9,6 @@ class MainMenuView extends GetView<MainMenuController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
-        ),
         title: const Text(
           'Hello there! 👋',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -34,8 +28,7 @@ class MainMenuView extends GetView<MainMenuController> {
           ),
           IconButton(
             icon: const Icon(Icons.account_circle),
-            onPressed: () =>
-                Get.toNamed('/profile'), // Tambahkan navigasi ke ProfileView
+            onPressed: () => Get.toNamed('/profile'), // Navigasi ke ProfileView
           ),
         ],
       ),
@@ -44,6 +37,7 @@ class MainMenuView extends GetView<MainMenuController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Search Field
             TextField(
               decoration: InputDecoration(
                 hintText: 'Cari layanan...',
@@ -64,6 +58,8 @@ class MainMenuView extends GetView<MainMenuController> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
+
+            // Service Grid
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -106,46 +102,50 @@ class MainMenuView extends GetView<MainMenuController> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color.fromARGB(255, 57, 57, 57),
-        unselectedItemColor: const Color.fromARGB(255, 82, 82, 82),
-        currentIndex:
-            controller.selectedIndex.value, // Pastikan ini menggunakan state
-        onTap: (index) {
-          controller.updateIndex(index); // Update nilai selectedIndex
-          if (index == 0) {
-            // Home
-            Get.offAllNamed('/mainMenu');
-          } else if (index == 1) {
-            // Payment
-            Get.toNamed('/payment'); // Navigasi ke halaman Payment
-          } else if (index == 2) {
-            // History
-            Get.toNamed('/history');
-          } else if (index == 3) {
-            // Settings
-            Get.toNamed('/settings');
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.payment),
-            label: 'Payment',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        color: const Color.fromARGB(
+            255, 0, 0, 0), // Ganti dengan warna yang diinginkan
+        child: BottomNavigationBar(
+          backgroundColor: Colors
+              .transparent, // Transparan agar warna dari Container terlihat
+          selectedItemColor: const Color.fromARGB(255, 57, 57, 57),
+          unselectedItemColor: const Color.fromARGB(255, 82, 82, 82),
+          currentIndex: controller.selectedIndex.value,
+          onTap: (index) {
+            controller.updateIndex(index);
+            if (index == 0) {
+              // Home
+              Get.offAllNamed('/mainMenu');
+            } else if (index == 1) {
+              // Payment
+              Get.toNamed('/payment'); // Navigasi ke halaman Payment
+            } else if (index == 2) {
+              // History
+              Get.toNamed('/history');
+            } else if (index == 3) {
+              // Settings
+              Get.toNamed('/settings');
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.payment),
+              label: 'Payment',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -233,6 +233,14 @@ class MainMenuView extends GetView<MainMenuController> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: const Color.fromARGB(255, 250, 250, 250),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              blurRadius: 5,
+              spreadRadius: 1,
+              offset: const Offset(0, 3), // Shadow position
+            ),
+          ],
         ),
         child: Column(
           children: [

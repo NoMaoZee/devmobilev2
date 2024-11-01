@@ -1,15 +1,8 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
-     // ...
-
-  // Add the dependency for the Google services Gradle plugin
-    id 'com.google.gms.google-services' version '4.4.2' apply false
-    id 'com.android.application'
     id 'com.google.gms.google-services'
-
 }
 
 android {
@@ -27,37 +20,24 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.devmobilev2"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.almeraa.laundry"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-    dependencies {
-        // Import the Firebase BoM
-        implementation platform('com.google.firebase:firebase-bom:33.5.1')
-
-
-        // TODO: Add the dependencies for Firebase products you want to use
-        // When using the BoM, don't specify versions in Firebase dependencies
-         implementation 'com.google.firebase:firebase-analytics'
-
-
-         // Add the dependencies for any other desired Firebase products
-        // https://firebase.google.com/docs/android/setup#available-libraries
-}
-
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
         }
     }
+}
+
+dependencies {
+    // Tambahkan dependencies Firebase dan lainnya di sini
+    implementation platform('com.google.firebase:firebase-bom:33.5.1')
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 flutter {

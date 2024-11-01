@@ -90,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.orderMenu,
-      page: () => const OrderMenuView(),
+      page: () => OrderMenuView(),
       binding: OrderMenuBinding(),
     ),
     GetPage(
