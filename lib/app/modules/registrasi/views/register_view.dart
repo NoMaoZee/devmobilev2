@@ -18,7 +18,6 @@ class RegisterView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Back Button with Alignment
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
@@ -28,7 +27,6 @@ class RegisterView extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
 
-                // Welcome Text
                 const Text(
                   'Hello! Register to get started',
                   style: TextStyle(
@@ -43,7 +41,7 @@ class RegisterView extends StatelessWidget {
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.black), // Label color
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -53,7 +51,7 @@ class RegisterView extends StatelessWidget {
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.black), // Label color
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -63,7 +61,7 @@ class RegisterView extends StatelessWidget {
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Address',
-                    labelStyle: TextStyle(color: Colors.black), // Label color
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -74,7 +72,7 @@ class RegisterView extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.black), // Label color
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -85,7 +83,7 @@ class RegisterView extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Confirm password',
-                    labelStyle: TextStyle(color: Colors.black), // Label color
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -136,7 +134,7 @@ class RegisterView extends StatelessWidget {
                       'Register with Google',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color.fromARGB(255, 0, 0, 0), // Text color
+                        color: Colors.black,
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
@@ -144,8 +142,7 @@ class RegisterView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      side:
-                          const BorderSide(color: Colors.black), // Border color
+                      side: const BorderSide(color: Colors.black),
                     ),
                   ),
                 ),
