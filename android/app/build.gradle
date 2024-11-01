@@ -1,43 +1,48 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id 'com.google.gms.google-services' // Plugin untuk Google Services
     id "dev.flutter.flutter-gradle-plugin"
-    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace = "com.example.devmobilev2"
+    namespace = "com.almeraa.laundry"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_19
     }
 
     defaultConfig {
         applicationId = "com.almeraa.laundry"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdkVersion 23
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutter.versionCode
+        versionName flutter.versionName
+        multiDexEnabled true
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
         release {
             signingConfig = signingConfigs.debug
         }
     }
-}
 
-dependencies {
-    // Tambahkan dependencies Firebase dan lainnya di sini
-    implementation platform('com.google.firebase:firebase-bom:33.5.1')
-    implementation 'com.google.firebase:firebase-analytics'
+    dependencies {
+        implementation platform('com.google.firebase:firebase-bom:33.5.1')
+        implementation 'com.google.firebase:firebase-auth'
+        implementation 'com.google.firebase:firebase-analytics'
+        implementation 'androidx.multidex:multidex:2.0.1'
+    }
 }
 
 flutter {

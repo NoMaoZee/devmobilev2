@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "513912944319",
     "project_id": "devmobilev3-eba2c",
-    "storage_bucket": "devmobilev3-eba2c.appspot.com"
+    "storage_bucket": "devmobilev3-eba2c.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,20 @@
           "package_name": "com.almeraa.laundry"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "513912944319-grg7lu8gols31o0kf06f90f95bbr9ed5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.almeraa.laundry",
+            "certificate_hash": "b3bb82b73077c9193de81fefbbf324f6ddca99b8"
+          }
+        },
+        {
+          "client_id": "513912944319-10oep0f2iaep30r6ab54jqgkmftcgprq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA1mTE27Wn-SHTg9ZwHYPoguNu7Kp_C8yk"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513912944319-10oep0f2iaep30r6ab54jqgkmftcgprq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

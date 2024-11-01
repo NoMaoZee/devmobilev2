@@ -118,13 +118,13 @@ class LoginView extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Google Login Button
+// Google Login Button
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     onPressed: controller.loginWithGoogle,
                     icon: Image.asset(
-                      'assets/google.png',
+                      'assets/google.png', // Pastikan file ini ada
                       width: 24,
                       height: 24,
                     ),
