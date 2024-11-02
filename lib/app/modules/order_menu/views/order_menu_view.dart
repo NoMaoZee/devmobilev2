@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart'; // Import logger
+import '../controllers/order_menu_controller.dart';
 
-class OrderMenuView extends GetView {
-  final Logger logger = Logger(); // Initialize logger
-
-  // Hapus kata kunci 'const' dari konstruktor
-  OrderMenuView({super.key});
+class OrderMenuView extends GetView<OrderMenuController> {
+  const OrderMenuView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String selectedLaundryType = '';
-    String selectedServicePackage = 'Regular'; // Default to Regular
-    String selectedPickupOption = 'Antar Jemput'; // Default to Antar Jemput
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -21,7 +14,7 @@ class OrderMenuView extends GetView {
           onPressed: () => Get.back(),
         ),
         title: const Text(
-          'Tipe',
+          'Order Laundry',
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -44,55 +37,40 @@ class OrderMenuView extends GetView {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   isExpanded: true,
+                  value: controller.selectedLaundryType.value.isEmpty
+                      ? null
+                      : controller.selectedLaundryType.value,
                   hint: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text('Tipe Laundry'),
                   ),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'Cuci Aja',
-                      child: Text('Cuci Aja'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Cuci Setrika',
-                      child: Text('Cuci Setrika'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Dry Cleaning',
-                      child: Text('Dry Cleaning'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Karpet',
-                      child: Text('Karpet'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Custom',
-                      child: Text('Custom'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Sepatu & Tas',
-                      child: Text('Sepatu & Tas'),
-                    ),
-                  ],
+                  items: controller.laundryTypes
+                      .map(
+                        (type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
+                        ),
+                      )
+                      .toList(),
                   onChanged: (value) {
-                    selectedLaundryType = value ?? '';
+                    controller.setLaundryType(value!);
                   },
                   icon: const Icon(Icons.keyboard_arrow_down),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
                 ),
               ),
             ),
             const SizedBox(height: 16),
 
-            // Keterangan Input
+            // Input for Description/Notes
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const TextField(
+              child: TextField(
                 maxLines: 5,
-                decoration: InputDecoration(
+                onChanged: (value) => controller.setNotes(value),
+                decoration: const InputDecoration(
                   hintText: 'Masukkan keterangan',
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(16),
@@ -112,33 +90,30 @@ class OrderMenuView extends GetView {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      selectedServicePackage = 'Regular';
+                      controller.setPackage('Regular');
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: selectedServicePackage == 'Regular'
-                            ? Colors.grey[800]
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: const [
-                          Row(
-                            children: [
-                              Icon(Icons.star, color: Colors.white),
-                              SizedBox(width: 8),
-                              Text(
-                                'Regular',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            'Estimasi 2 Hari',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
+                    child: Obx(
+                      () => Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: controller.selectedPackage.value == 'Regular'
+                              ? Colors.grey[800]
+                              : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Regular',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Estimasi 2 Hari',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -147,30 +122,30 @@ class OrderMenuView extends GetView {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      selectedServicePackage = 'Express';
+                      controller.setPackage('Express');
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: selectedServicePackage == 'Express'
-                            ? Colors.grey[800]
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: const [
-                          Row(
-                            children: [
-                              Icon(Icons.bolt),
-                              SizedBox(width: 8),
-                              Text('Express'),
-                            ],
-                          ),
-                          Text(
-                            'Estimasi 1 Hari',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
+                    child: Obx(
+                      () => Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: controller.selectedPackage.value == 'Express'
+                              ? Colors.grey[800]
+                              : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Express',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Estimasi 1 Hari',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -190,26 +165,29 @@ class OrderMenuView extends GetView {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      selectedPickupOption = 'Antar Jemput';
+                      controller.setDelivery('Antar Jemput');
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: selectedPickupOption == 'Antar Jemput'
-                            ? Colors.grey[800]
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.local_shipping, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text(
-                            'Antar Jemput',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                    child: Obx(
+                      () => Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: controller.selectedDelivery.value ==
+                                  'Antar Jemput'
+                              ? Colors.grey[800]
+                              : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.local_shipping, color: Colors.white),
+                            SizedBox(width: 8),
+                            Text(
+                              'Antar Jemput',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -218,23 +196,26 @@ class OrderMenuView extends GetView {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      selectedPickupOption = 'Jemput Aja';
+                      controller.setDelivery('Jemput Aja');
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: selectedPickupOption == 'Jemput Aja'
-                            ? Colors.grey[800]
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.directions_car),
-                          SizedBox(width: 8),
-                          Text('Jemput Aja'),
-                        ],
+                    child: Obx(
+                      () => Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color:
+                              controller.selectedDelivery.value == 'Jemput Aja'
+                                  ? Colors.grey[800]
+                                  : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.directions_car),
+                            SizedBox(width: 8),
+                            Text('Jemput Aja'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -250,12 +231,13 @@ class OrderMenuView extends GetView {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Logic for immediate payment
-                      logger.i('Selected Laundry Type: $selectedLaundryType');
-                      logger.i(
-                          'Selected Service Package: $selectedServicePackage');
-                      logger.i('Selected Pickup Option: $selectedPickupOption');
-                      // Simpan data ke Firebase atau lakukan tindakan lain
+                      if (controller.validateOrder()) {
+                        controller
+                            .saveOrder(); // Simpan data ke Firebase atau backend
+                        controller.payNow();
+                      } else {
+                        Get.snackbar('Error', 'Please fill all fields');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[800],
@@ -275,7 +257,13 @@ class OrderMenuView extends GetView {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Logic for deferred payment
+                      if (controller.validateOrder()) {
+                        controller
+                            .saveOrder(); // Simpan data untuk diakses nanti
+                        controller.payLater();
+                      } else {
+                        Get.snackbar('Error', 'Please fill all fields');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[300],

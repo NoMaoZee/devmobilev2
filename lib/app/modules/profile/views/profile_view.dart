@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:devmobilev2/app/routes/app_pages.dart';
+import '../controllers/profile_controller.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController controller = Get.put(ProfileController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Get.toNamed('/mainMenu'); // Navigate back to main menu
+            controller.navigateToMainMenu(); // Navigate back to main menu
           },
         ),
         title: const Text(
@@ -25,7 +27,7 @@ class ProfileView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Get.toNamed('/mainMenu'); // Navigate back to main menu
+              controller.navigateToMainMenu(); // Navigate back to main menu
             },
             child: const Text(
               'Selesai',
@@ -77,7 +79,7 @@ class ProfileView extends StatelessWidget {
               // Sign out button
               ElevatedButton.icon(
                 onPressed: () {
-                  Get.offAllNamed(Routes.login); // Navigate to login page
+                  controller.logout(); // Call the logout method
                 },
                 icon: const Icon(Icons.logout, color: Colors.white),
                 label: const Text(

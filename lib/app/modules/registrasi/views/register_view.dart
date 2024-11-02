@@ -18,13 +18,6 @@ class RegisterView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: controller.goBack,
-                  ),
-                ),
                 const SizedBox(height: 40),
 
                 const Text(
