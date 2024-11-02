@@ -105,9 +105,9 @@ class MainMenuView extends GetView<MainMenuController> {
       bottomNavigationBar: Container(
         color: const Color.fromARGB(
             255, 0, 0, 0), // Ganti dengan warna yang diinginkan
+        // Di dalam BottomNavigationBar
         child: BottomNavigationBar(
-          backgroundColor: Colors
-              .transparent, // Transparan agar warna dari Container terlihat
+          backgroundColor: Colors.transparent,
           selectedItemColor: const Color.fromARGB(255, 57, 57, 57),
           unselectedItemColor: const Color.fromARGB(255, 82, 82, 82),
           currentIndex: controller.selectedIndex.value,
@@ -118,7 +118,7 @@ class MainMenuView extends GetView<MainMenuController> {
               Get.offAllNamed('/mainMenu');
             } else if (index == 1) {
               // Payment
-              Get.toNamed('/payment'); // Navigasi ke halaman Payment
+              Get.offNamed('/payment'); // Gunakan offNamed untuk memuat ulang
             } else if (index == 2) {
               // History
               Get.toNamed('/history');

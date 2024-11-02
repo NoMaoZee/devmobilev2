@@ -64,27 +64,27 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
-      name: '/forgot_password',
+      name: _Paths.forgotPassword,
       page: () => const ForgotPasswordView(),
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: '/enter_otp',
+      name: _Paths.enterOtp,
       page: () => const OTPView(),
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: '/create_password',
+      name: _Paths.createPassword,
       page: () => const CreatePasswordView(),
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: '/password_changed',
+      name: _Paths.passwordChanged,
       page: () => const PasswordChangedView(),
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      name: '/mainMenu',
+      name: _Paths.mainMenu,
       page: () => const MainMenuView(),
       binding: MainMenuBinding(),
     ),
@@ -94,7 +94,7 @@ class AppPages {
       binding: OrderMenuBinding(),
     ),
     GetPage(
-      name: '/profile',
+      name: _Paths.profile,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
@@ -109,7 +109,7 @@ class AppPages {
       binding: ContactPaymentBinding(),
     ),
     GetPage(
-      name: Routes.history,
+      name: _Paths.history,
       page: () => HistoryView(),
       binding: HistoryBinding(),
     ),

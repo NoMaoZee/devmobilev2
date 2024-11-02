@@ -2,27 +2,39 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
-  static const home = '/home';
-  static const phoneInput = '/phone-input';
-  static const verifikasiOtp = '/verifikasi-otp';
-  static const register = '/register';
-  static const login = '/login';
-  static const mainMenu = '/main-menu';
-  static const orderMenu = '/order-menu';
-  static const profile = '/profile';
+  static const home = _Paths.home;
+  static const phoneInput = _Paths.phoneInput;
+  static const verifikasiOtp = _Paths.verifikasiOtp;
+  static const register = _Paths.register;
+  static const login = _Paths.login;
+  static const forgotPassword = _Paths.forgotPassword; // Pastikan rute ini ada
+  static const enterOtp = _Paths.enterOtp; // Pastikan rute ini ada
+  static const createPassword = _Paths.createPassword; // Pastikan rute ini ada
+  static const passwordChanged = _Paths.passwordChanged;
+  static const mainMenu = _Paths.mainMenu;
+  static const orderMenu = _Paths.orderMenu;
+  static const profile = _Paths.profile;
   static const payment = _Paths.payment;
   static const contactPayment = _Paths.contactPayment;
-  static const history = '/history';
-  static const settings = '/settings';
+  static const history = _Paths.history;
+  static const settings = _Paths.settings;
 }
 
 abstract class _Paths {
   static const home = '/home';
-  static const phoneInput = '/phone-input';
-  static const verifikasiOtp = '/verifikasi-otp';
+  static const phoneInput = '/phone_input';
+  static const verifikasiOtp = '/verifikasi_otp';
   static const register = '/register';
-  static const orderMenu = '/order-menu';
+  static const login = '/login';
+  static const forgotPassword = '/forgot_password'; // Definisikan rute ini
+  static const enterOtp = '/enter_otp'; // Definisikan rute ini
+  static const createPassword = '/create_password'; // Definisikan rute ini
+  static const passwordChanged = '/password_changed';
+  static const mainMenu = '/mainMenu';
+  static const orderMenu = '/order_menu';
+  static const profile = '/profile';
   static const payment = '/payment';
-  static const contactPayment = '/contact-payment';
+  static const contactPayment = '/contact_payment';
+  static const history = '/history';
   static const settings = '/settings';
 }

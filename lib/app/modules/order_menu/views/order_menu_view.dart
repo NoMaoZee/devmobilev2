@@ -1,3 +1,4 @@
+// File: lib/app/modules/order_menu/views/order_menu_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/order_menu_controller.dart';
@@ -224,61 +225,30 @@ class OrderMenuView extends GetView<OrderMenuController> {
             ),
             const Spacer(),
 
-            // Payment Options
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (controller.validateOrder()) {
-                        controller
-                            .saveOrder(); // Simpan data ke Firebase atau backend
-                        controller.payNow();
-                      } else {
-                        Get.snackbar('Error', 'Please fill all fields');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[800],
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text(
-                      'Bayar Sekarang',
-                      style: TextStyle(color: Colors.white),
-                    ),
+            // Payment Option: Bayar Sekarang
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (controller.validateOrder()) {
+                    controller
+                        .saveOrder(); // Simpan data ke Firebase dan navigasi ke pembayaran
+                  } else {
+                    Get.snackbar('Error', 'Please fill all fields');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (controller.validateOrder()) {
-                        controller
-                            .saveOrder(); // Simpan data untuk diakses nanti
-                        controller.payLater();
-                      } else {
-                        Get.snackbar('Error', 'Please fill all fields');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[300],
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      'Bayar Nanti',
-                      style: TextStyle(color: Colors.grey[800]),
-                    ),
-                  ),
+                child: const Text(
+                  'Lanjutkan Pembayaran',
+                  style: TextStyle(color: Colors.white),
                 ),
-              ],
+              ),
             ),
           ],
         ),
