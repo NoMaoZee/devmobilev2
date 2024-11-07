@@ -1,6 +1,7 @@
-// File: lib/app/modules/order_menu/controllers/order_menu_controller.dart
+// lib/app/modules/order_menu/controllers/order_menu_controller.dart
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class OrderMenuController extends GetxController {
   var selectedPackage = 'Regular'.obs;
@@ -9,6 +10,8 @@ class OrderMenuController extends GetxController {
   var selectedLaundryType = ''.obs;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth =
+      FirebaseAuth.instance; // Tambahkan FirebaseAuth instance
 
   // ID untuk dokumen yang sudah disimpan, untuk menghindari duplikasi
   var orderId = ''.obs;
@@ -58,7 +61,15 @@ class OrderMenuController extends GetxController {
       return;
     }
 
+    // Dapatkan User ID dari Firebase Authentication
+    String? userId = _auth.currentUser?.uid;
+    if (userId == null) {
+      Get.snackbar('Error', 'User not authenticated');
+      return;
+    }
+
     var orderData = {
+      'uid': userId, // Tambahkan user ID ke data order
       'laundryType': selectedLaundryType.value,
       'servicePackage': selectedPackage.value,
       'pickupOption': selectedDelivery.value,
