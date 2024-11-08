@@ -29,34 +29,38 @@ class OrderMenuView extends GetView<OrderMenuController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dropdown for Laundry Type
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: controller.selectedLaundryType.value.isEmpty
-                      ? null
-                      : controller.selectedLaundryType.value,
-                  hint: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Tipe Laundry'),
+            // Custom Animated Dropdown for Laundry Type
+            GestureDetector(
+              onTap: () {
+                // Trigger dropdown menu opening
+                showLaundryTypeDropdown(context);
+              },
+              child: Obx(
+                () => Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  items: controller.laundryTypes
-                      .map(
-                        (type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        controller.selectedLaundryType.value.isEmpty
+                            ? 'Tipe Laundry'
+                            : controller.selectedLaundryType.value,
+                        style: TextStyle(
+                          color: controller.selectedLaundryType.value.isEmpty
+                              ? Colors.grey
+                              : Colors.black,
+                          fontWeight: FontWeight.w600,
                         ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    controller.setLaundryType(value!);
-                  },
-                  icon: const Icon(Icons.keyboard_arrow_down),
+                      ),
+                      const Icon(Icons.keyboard_arrow_down),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -80,7 +84,7 @@ class OrderMenuView extends GetView<OrderMenuController> {
             ),
             const SizedBox(height: 24),
 
-            // Package Selection
+            // Package Selection with Animation
             const Text(
               'Pilih jenis paket',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -94,7 +98,9 @@ class OrderMenuView extends GetView<OrderMenuController> {
                       controller.setPackage('Regular');
                     },
                     child: Obx(
-                      () => Container(
+                      () => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: controller.selectedPackage.value == 'Regular'
@@ -103,15 +109,25 @@ class OrderMenuView extends GetView<OrderMenuController> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
-                          children: const [
+                          children: [
                             Text(
                               'Regular',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: controller.selectedPackage.value ==
+                                        'Regular'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             ),
                             Text(
                               'Estimasi 2 Hari',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
+                              style: TextStyle(
+                                color: controller.selectedPackage.value ==
+                                        'Regular'
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 12,
+                              ),
                             ),
                           ],
                         ),
@@ -126,7 +142,9 @@ class OrderMenuView extends GetView<OrderMenuController> {
                       controller.setPackage('Express');
                     },
                     child: Obx(
-                      () => Container(
+                      () => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: controller.selectedPackage.value == 'Express'
@@ -135,15 +153,25 @@ class OrderMenuView extends GetView<OrderMenuController> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
-                          children: const [
+                          children: [
                             Text(
                               'Express',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: controller.selectedPackage.value ==
+                                        'Express'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             ),
                             Text(
                               'Estimasi 1 Hari',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
+                              style: TextStyle(
+                                color: controller.selectedPackage.value ==
+                                        'Express'
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 12,
+                              ),
                             ),
                           ],
                         ),
@@ -155,7 +183,7 @@ class OrderMenuView extends GetView<OrderMenuController> {
             ),
             const SizedBox(height: 24),
 
-            // Delivery Type Selection
+            // Delivery Type Selection with Animation
             const Text(
               'Pilih jenis pengantar',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -169,7 +197,9 @@ class OrderMenuView extends GetView<OrderMenuController> {
                       controller.setDelivery('Antar Jemput');
                     },
                     child: Obx(
-                      () => Container(
+                      () => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: controller.selectedDelivery.value ==
@@ -178,14 +208,25 @@ class OrderMenuView extends GetView<OrderMenuController> {
                               : Colors.grey[200],
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_shipping, color: Colors.white),
-                            SizedBox(width: 8),
+                            Icon(
+                              Icons.local_shipping,
+                              color: controller.selectedDelivery.value ==
+                                      'Antar Jemput'
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            const SizedBox(width: 8),
                             Text(
                               'Antar Jemput',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: controller.selectedDelivery.value ==
+                                        'Antar Jemput'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             ),
                           ],
                         ),
@@ -200,7 +241,9 @@ class OrderMenuView extends GetView<OrderMenuController> {
                       controller.setDelivery('Jemput Aja');
                     },
                     child: Obx(
-                      () => Container(
+                      () => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color:
@@ -209,12 +252,26 @@ class OrderMenuView extends GetView<OrderMenuController> {
                                   : Colors.grey[200],
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.directions_car),
-                            SizedBox(width: 8),
-                            Text('Jemput Aja'),
+                            Icon(
+                              Icons.directions_car,
+                              color: controller.selectedDelivery.value ==
+                                      'Jemput Aja'
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Jemput Aja',
+                              style: TextStyle(
+                                color: controller.selectedDelivery.value ==
+                                        'Jemput Aja'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -253,6 +310,34 @@ class OrderMenuView extends GetView<OrderMenuController> {
           ],
         ),
       ),
+    );
+  }
+
+  // Show Custom Laundry Type Dropdown
+  void showLaundryTypeDropdown(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: ListView(
+            shrinkWrap: true,
+            children: controller.laundryTypes.map((type) {
+              return ListTile(
+                title: Text(type),
+                onTap: () {
+                  controller.setLaundryType(type);
+                  Navigator.pop(context); // Close the dropdown
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 }

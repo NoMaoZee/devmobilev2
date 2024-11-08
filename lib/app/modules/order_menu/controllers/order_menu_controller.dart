@@ -36,15 +36,26 @@ class OrderMenuController extends GetxController {
     return selectedLaundryType.value.isNotEmpty && notes.value.isNotEmpty;
   }
 
-  // Calculate price based on selected package and laundry type
+  // Calculate price based on selected package, laundry type, and delivery option
   int calculatePrice() {
+    int basePrice = 0;
+
+    // Determine base price based on laundry type and package
     if (selectedLaundryType.value == 'Cuci Aja') {
-      return selectedPackage.value == 'Express' ? 60000 : 40000;
+      basePrice = selectedPackage.value == 'Express' ? 20000 : 10000;
     } else if (selectedLaundryType.value == 'Cuci Setrika') {
-      return selectedPackage.value == 'Express' ? 80000 : 50000;
+      basePrice = selectedPackage.value == 'Express' ? 30000 : 20000;
+    } else if (selectedLaundryType.value == 'Dry Cleaning') {
+      basePrice = selectedPackage.value == 'Express' ? 15000 : 10000;
+    } else if (selectedLaundryType.value == 'Karpet') {
+      basePrice = selectedPackage.value == 'Express' ? 40000 : 25000;
+    } else if (selectedLaundryType.value == 'Sepatu & Tas') {
+      basePrice = selectedPackage.value == 'Express' ? 35000 : 25000;
     }
-    // Tambahkan aturan harga lainnya jika diperlukan
-    return 0; // Default jika tipe tidak dikenali
+    // Add additional delivery cost based on delivery option
+    int deliveryCost = selectedDelivery.value == 'Antar Jemput' ? 10000 : 5000;
+
+    return basePrice + deliveryCost;
   }
 
   // Save order data to Firestore
