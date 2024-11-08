@@ -1,7 +1,7 @@
 // lib/app/modules/payment/views/payment_view.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../controllers/payment_controller.dart';
 
 class PaymentView extends GetView<PaymentController> {
@@ -20,78 +20,79 @@ class PaymentView extends GetView<PaymentController> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
-          // Jika data order belum ada, tampilkan loading
-          if (controller.orderData.isEmpty) {
+          // Display a loading spinner if orders are not yet loaded
+          if (controller.orders.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // Mendapatkan data dari orderData di controller
-          final laundryType = controller.orderData['laundryType'] ?? 'Unknown';
-          final servicePackage =
-              controller.orderData['servicePackage'] ?? 'Unknown';
-          final pickupOption =
-              controller.orderData['pickupOption'] ?? 'Unknown';
-          final notes = controller.orderData['notes'] ?? '';
-          final price = controller.orderData['price'] ?? 0;
+          // Display a scrollable list of payment cards for each order
+          return ListView.builder(
+            itemCount: controller.orders.length,
+            itemBuilder: (context, index) {
+              var order = controller.orders[index];
+              final laundryType = order['laundryType'] ?? 'Unknown';
+              final servicePackage = order['servicePackage'] ?? 'Unknown';
+              final pickupOption = order['pickupOption'] ?? 'Unknown';
+              final notes = order['notes'] ?? '';
+              final price = order['price'] ?? 0;
 
-          // Mengubah Timestamp ke DateTime jika orderDate tersedia
-          DateTime orderDate = DateTime.now();
-          if (controller.orderData['orderDate'] is Timestamp) {
-            orderDate =
-                (controller.orderData['orderDate'] as Timestamp).toDate();
-          }
+              DateTime orderDate = DateTime.now();
+              if (order['orderDate'] is Timestamp) {
+                orderDate = (order['orderDate'] as Timestamp).toDate();
+              }
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Nota Pembayaran',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              _buildPaymentCard(
-                laundryType,
-                servicePackage,
-                pickupOption,
-                notes,
-                orderDate,
-                price,
-              ),
-              const SizedBox(height: 0),
-              ElevatedButton(
-                onPressed: () => _showCancelConfirmationDialog(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color.fromARGB(255, 27, 27, 27), // Warna hitam
-                  foregroundColor: Colors.white, // Warna teks putih
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Border radius 8
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildPaymentCard(
+                    laundryType,
+                    servicePackage,
+                    pickupOption,
+                    notes,
+                    orderDate,
+                    price,
                   ),
-                  elevation: 4, // Efek bayangan tombol
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 20), // Padding untuk ukuran tombol
-                ),
-                child: const Text(
-                  'Batal Pembayaran',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _showCancelConfirmationDialog(
+                        context, order['id']), // Pass the order ID for cancel
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black, // Black color
+                      foregroundColor: Colors.white, // White text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(8), // Rounded corners
+                      ),
+                      elevation: 4,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 20), // Padding for size
+                    ),
+                    child: const Text(
+                      'Batal Pembayaran',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
+                  const SizedBox(height: 16),
+                ],
+              );
+            },
           );
         }),
       ),
     );
   }
 
-  // Membuat Payment Card
+  // Create Payment Card widget
   Widget _buildPaymentCard(String laundryType, String servicePackage,
       String pickupOption, String notes, DateTime orderDate, int price) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -117,8 +118,8 @@ class PaymentView extends GetView<PaymentController> {
     );
   }
 
-  // Menampilkan dialog konfirmasi pembatalan
-  void _showCancelConfirmationDialog(BuildContext context) {
+  // Show confirmation dialog for order cancellation
+  void _showCancelConfirmationDialog(BuildContext context, String orderId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -138,7 +139,7 @@ class PaymentView extends GetView<PaymentController> {
               onPressed: () {
                 Navigator.of(context).pop();
                 controller
-                    .cancelOrder(); // Panggil fungsi untuk membatalkan pembayaran
+                    .cancelOrder(orderId); // Call function to cancel order
               },
             ),
           ],
