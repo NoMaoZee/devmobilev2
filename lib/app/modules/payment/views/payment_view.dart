@@ -12,10 +12,6 @@ class PaymentView extends GetView<PaymentController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pembayaran'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

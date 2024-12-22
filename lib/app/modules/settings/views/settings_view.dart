@@ -1,3 +1,4 @@
+import 'package:devmobilev2/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/settings_controller.dart';
@@ -24,6 +25,7 @@ class SettingsView extends GetView<SettingsController> {
           children: [
             _buildSectionTitle('Akun'),
             _buildSettingsItem(Icons.person, 'Edit Profil', () {
+              Get.toNamed(Routes.profile);
               // Aksi untuk mengedit profil
             }),
             _buildSettingsItem(Icons.security, 'Keamanan', () {

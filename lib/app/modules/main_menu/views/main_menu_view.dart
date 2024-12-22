@@ -49,47 +49,32 @@ class MainMenuView extends GetView<MainMenuController> {
             const SizedBox(height: 16),
 
             // Grid layanan dinamis
-            Expanded(
-              child: Obx(() {
-                return GridView.builder(
-                  itemCount: controller.filteredServices.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemBuilder: (context, index) {
-                    final service = controller.filteredServices[index];
-                    return buildServiceOption(
-                      service['title']!,
-                      service['description']!,
-                      service['image']!,
+            Expanded(child: Obx(() {
+              print(
+                  controller.filteredServices); // Cek apakah data sudah dimuat
+              return controller.filteredServices.isEmpty
+                  ? const Center(child: Text('Layanan tidak ditemukan'))
+                  : GridView.builder(
+                      itemCount: controller.filteredServices.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                      ),
+                      itemBuilder: (context, index) {
+                        final service = controller.filteredServices[index];
+                        return buildServiceOption(
+                          service['title']!,
+                          service['description']!,
+                          service['image']!,
+                        );
+                      },
                     );
-                  },
-                );
-              }),
-            ),
+            })),
           ],
         ),
       ),
-      bottomNavigationBar: Obx(() {
-        return BottomNavigationBar(
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.grey,
-          currentIndex: controller.selectedIndex.value,
-          onTap: controller.updateIndex,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.payment), label: 'Payment'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.history), label: 'History'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'Settings'),
-          ],
-        );
-      }),
     );
   }
 

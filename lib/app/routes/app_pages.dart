@@ -1,7 +1,9 @@
 // lib/app/routes/app_pages.dart
+import 'package:devmobilev2/app/modules/main_menu/controllers/main_menu_controller.dart';
+import 'package:devmobilev2/app/modules/navbar/controllers/navbar_user_controller.dart';
+import 'package:devmobilev2/app/modules/navbar/views/navbar_user.dart';
 import 'package:get/get.dart';
 import 'package:devmobilev2/app/modules/login/views/login_view.dart';
-import 'package:devmobilev2/app/modules/main_menu/bindings/main_menu_binding.dart';
 import 'package:devmobilev2/app/modules/main_menu/views/main_menu_view.dart';
 import 'package:devmobilev2/app/modules/profile/bindings/profile_bindings.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -18,7 +20,6 @@ import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/forgot_password/views/otp_view.dart';
 import '../modules/forgot_password/views/create_password_view.dart';
 import '../modules/forgot_password/views/password_changed_view.dart';
-import '../modules/order_menu/bindings/order_menu_binding.dart';
 import '../modules/order_menu/views/order_menu_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import 'package:devmobilev2/app/modules/payment/bindings/payment_binding.dart';
@@ -38,6 +39,31 @@ class AppPages {
   static const initial = Routes.home;
 
   static final routes = [
+    // Route untuk Navbar
+    GetPage(
+      name: Routes.navbar,
+      page: () => NavbarView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<NavbarUserController>(() => NavbarUserController());
+      }),
+    ),
+    // Route untuk Main Menu
+    GetPage(
+      name: Routes.mainMenu,
+      page: () => MainMenuView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<MainMenuController>(() => MainMenuController());
+      }),
+    ),
+    // Route untuk Order Menu
+    GetPage(
+      name: Routes.orderMenu,
+      page: () => OrderMenuView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<MainMenuController>(() => MainMenuController());
+      }),
+    ),
+    // Route lainnya
     GetPage(
       name: _Paths.home,
       page: () => const HomeView(),
@@ -82,16 +108,6 @@ class AppPages {
       name: _Paths.passwordChanged,
       page: () => const PasswordChangedView(),
       binding: ForgotPasswordBinding(),
-    ),
-    GetPage(
-      name: _Paths.mainMenu,
-      page: () => const MainMenuView(),
-      binding: MainMenuBinding(),
-    ),
-    GetPage(
-      name: _Paths.orderMenu,
-      page: () => OrderMenuView(),
-      binding: OrderMenuBinding(),
     ),
     GetPage(
       name: _Paths.profile,

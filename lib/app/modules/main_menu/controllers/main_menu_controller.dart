@@ -69,23 +69,4 @@ class MainMenuController extends GetxController {
       arguments: {'serviceType': serviceType},
     );
   }
-
-  // Perbarui indeks navbar
-  void updateIndex(int index) {
-    selectedIndex.value = index;
-    switch (index) {
-      case 0:
-        Get.offAllNamed(Routes.mainMenu);
-        break;
-      case 1:
-        Get.toNamed(Routes.payment);
-        break;
-      case 2:
-        Get.toNamed(Routes.history);
-        break;
-      case 3:
-        Get.toNamed(Routes.settings);
-        break;
-    }
-  }
 }
