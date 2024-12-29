@@ -24,7 +24,7 @@ class NavbarView extends StatelessWidget {
         height: 56,
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: const Color.fromARGB(255, 0, 0, 27),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

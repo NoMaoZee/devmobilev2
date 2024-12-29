@@ -9,6 +9,6 @@ class HomeController extends GetxController {
   void increment() => count.value++;
 
   void navigateToPhoneInput() {
-    Get.toNamed(Routes.phoneInput);
+    Get.toNamed(Routes.login);
   }
 }

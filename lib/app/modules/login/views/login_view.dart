@@ -13,48 +13,68 @@ class LoginView extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Obx(() {
-          // Display loading spinner if `isLoading` is true
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // Display login form if `isLoading` is false
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
                   const Text(
-                    'Welcome Back!',
+                    'Welcome Back to',
                     style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Laundry Clean and Wash. Again!',
+                  const Text(
+                    'Almeraa Laundry',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 20, 6, 211),
+                    ),
+                  ),
+                  Text(
+                    'Your Trusted Laundry Partner',
+                    style: TextStyle(
+                      fontSize: 16,
                       color: Colors.grey[600],
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Enter your email/phone number',
-                      border: OutlineInputBorder(),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Image.asset(
+                      'assets/login.png',
+                      height: 200,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 20),
                   TextField(
-                    obscureText: true,
+                    onChanged: (value) => controller.email.value = value,
                     decoration: InputDecoration(
-                      labelText: 'Enter your password',
-                      border: const OutlineInputBorder(),
+                      labelText: 'Email/Phone number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      prefixIcon: const Icon(Icons.email_outlined),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    obscureText: true,
+                    onChanged: (value) => controller.password.value = value,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.visibility),
                         onPressed: () {},
@@ -67,32 +87,35 @@ class LoginView extends StatelessWidget {
                       onPressed: controller.navigateToForgotPassword,
                       child: const Text(
                         'Forgot Password?',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 20, 6, 211),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: controller.login,
+                      onPressed: controller.loginWithEmailAndPassword,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        backgroundColor: const Color.fromARGB(255, 20, 6, 211),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text(
                         'Login',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   Row(
                     children: const [
                       Expanded(child: Divider(thickness: 1)),
@@ -103,7 +126,7 @@ class LoginView extends StatelessWidget {
                       Expanded(child: Divider(thickness: 1)),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
@@ -117,29 +140,36 @@ class LoginView extends StatelessWidget {
                         'Login with Google',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        side: const BorderSide(color: Colors.black),
+                        side: BorderSide(color: Colors.grey[300]!),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 15),
                   Center(
                     child: GestureDetector(
                       onTap: controller.navigateToRegister,
-                      child: const Text(
-                        "Don't have an account? Register Now",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't have an account? ",
+                          style: TextStyle(color: Colors.grey[600]),
+                          children: [
+                            TextSpan(
+                              text: "Register Now",
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 20, 6, 211),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

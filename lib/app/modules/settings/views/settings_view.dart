@@ -9,75 +9,129 @@ class SettingsView extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios,
+              color: Color.fromARGB(255, 20, 6, 211)),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text('Pengaturan'),
+        title: Text(
+          'Pengaturan',
+          style: TextStyle(
+            color: Color.fromARGB(255, 20, 6, 211),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle('Akun'),
-            _buildSettingsItem(Icons.person, 'Edit Profil', () {
-              Get.toNamed(Routes.profile);
-              // Aksi untuk mengedit profil
-            }),
-            _buildSettingsItem(Icons.security, 'Keamanan', () {
-              // Aksi untuk keamanan
-            }),
-            _buildSettingsItem(Icons.notifications, 'Notifikasi', () {
-              // Aksi untuk notifikasi
-            }),
-            _buildSettingsItem(Icons.lock, 'Privasi', () {
-              // Aksi untuk privasi
-            }),
-            const SizedBox(height: 16),
-            _buildSectionTitle('Langganan'),
-            _buildSettingsItem(Icons.help, 'Bantuan & Dukungan', () {
-              // Aksi untuk bantuan
-            }),
-            _buildSettingsItem(Icons.info, 'Syarat dan Kebijakan', () {
-              // Aksi untuk kebijakan
-            }),
-            const SizedBox(height: 16),
-            _buildSectionTitle('Actions'),
-            _buildSettingsItem(Icons.report, 'Laporkan Masalah', () {
-              // Aksi untuk melaporkan masalah
-            }),
-            _buildSettingsItem(Icons.person_add, 'Tambah Akun', () {
-              // Aksi untuk menambah akun
-            }),
-            _buildSettingsItem(Icons.logout, 'Log out', () {
-              controller.logout();
-            }),
-            const SizedBox(height: 24),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildAnimatedSection('Akun', [
+                _buildSettingsItem(Icons.person, 'Edit Profil', () {
+                  Get.toNamed(Routes.profile);
+                }),
+                _buildSettingsItem(Icons.security, 'Keamanan', () {}),
+                _buildSettingsItem(Icons.notifications, 'Notifikasi', () {}),
+                _buildSettingsItem(Icons.lock, 'Privasi', () {}),
+              ]),
+              _buildAnimatedSection('Langganan', [
+                _buildSettingsItem(Icons.help, 'Bantuan & Dukungan', () {}),
+                _buildSettingsItem(Icons.info, 'Syarat dan Kebijakan', () {}),
+              ]),
+              _buildAnimatedSection('Actions', [
+                _buildSettingsItem(Icons.report, 'Laporkan Masalah', () {}),
+                _buildSettingsItem(Icons.person_add, 'Tambah Akun', () {}),
+                _buildSettingsItem(
+                  Icons.logout,
+                  'Log out',
+                  () => controller.logout(),
+                  isLogout: true,
+                ),
+              ]),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        title,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  Widget _buildAnimatedSection(String title, List<Widget> items) {
+    return TweenAnimationBuilder(
+      tween: Tween<double>(begin: 0, end: 1),
+      duration: Duration(milliseconds: 500),
+      builder: (context, double value, child) {
+        return Transform.translate(
+          offset: Offset(50 * (1 - value), 0),
+          child: Opacity(
+            opacity: value,
+            child: child,
+          ),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 20, 6, 211),
+              ),
+            ),
+          ),
+          ...items,
+          SizedBox(height: 16),
+        ],
       ),
     );
   }
 
-  Widget _buildSettingsItem(IconData icon, String label, VoidCallback onTap) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(label),
-      onTap: onTap,
+  Widget _buildSettingsItem(IconData icon, String label, VoidCallback onTap,
+      {bool isLogout = false}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        leading: Icon(
+          icon,
+          color: isLogout ? Colors.red : Color.fromARGB(255, 20, 6, 211),
+        ),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: isLogout ? Colors.red : Colors.black,
+            fontWeight: isLogout ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: isLogout ? Colors.red : Color.fromARGB(255, 20, 6, 211),
+        ),
+        onTap: onTap,
+      ),
     );
   }
 }

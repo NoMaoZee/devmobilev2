@@ -8,21 +8,48 @@ class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   var isLoading = false.obs; // Observable loading state
+  var email = ''.obs; // Observable for email input
+  var password = ''.obs; // Observable for password input
 
-  // Login dengan email/password atau metode lain
-  Future<void> login() async {
+  // Login dengan email/password
+  Future<void> loginWithEmailAndPassword() async {
+    if (email.value.isEmpty || password.value.isEmpty) {
+      _logger.w("Email or password is empty");
+      Get.snackbar('Error', 'Email and password cannot be empty.',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
     try {
       isLoading.value = true; // Start loading
-      _logger.i("Attempting standard login...");
+      _logger.i("Attempting login with email and password...");
 
-      // TODO: tambahkan logika login dengan email/password jika dibutuhkan
-      await Future.delayed(const Duration(seconds: 1)); // Simulasi proses login
+      // Firebase Authentication login
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email.value.trim(),
+        password: password.value.trim(),
+      );
 
-      _logger.i("Standard login successful");
+      // Jika login berhasil
+      _logger.i(
+          "Login successful for user: ${userCredential.user?.email ?? 'Unknown'}");
       Get.offAllNamed('/navbar'); // Navigate to navbar
+    } on FirebaseAuthException catch (e) {
+      // Handle specific FirebaseAuth errors
+      String errorMessage;
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = 'Login failed: ${e.message}';
+      }
+      _logger.e("Login failed: $errorMessage");
+      Get.snackbar('Error', errorMessage, snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
-      _logger.e("Standard login failed: $e");
-      Get.snackbar('Error', 'Login failed: $e',
+      // Handle other errors
+      _logger.e("Unexpected error: $e");
+      Get.snackbar('Error', 'An unexpected error occurred. Please try again.',
           snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false; // Stop loading

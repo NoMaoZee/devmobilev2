@@ -11,80 +11,87 @@ class ProfileController extends GetxController {
   final Logger _logger = Logger();
 
   var userName = ''.obs;
-  var phoneNumber = ''.obs;
+  var email = ''.obs;
   var address = ''.obs;
+  var phoneNumber = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchUserData(); // Fetch user data when the controller initializes
+    fetchUserData();
   }
 
-  // Fetch user data from Firestore
-  void fetchUserData() async {
-    String? userId = _auth.currentUser?.uid;
-    if (userId != null) {
-      try {
-        var userDoc = await _firestore.collection('profile').doc(userId).get();
-        if (userDoc.exists) {
-          userName.value = userDoc['name'] ?? 'Admin';
-          phoneNumber.value = userDoc['phone'] ?? '+62 876256592617';
-          address.value = userDoc['address'] ?? 'Jl. Kapal Laut, No.23';
-        }
-      } catch (e) {
-        _logger.e("Error fetching user data: $e");
+  Future<void> fetchUserData() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      print('No UID found. User might not be logged in.');
+      return;
+    }
+
+    try {
+      final docRef = _firestore.collection('users').doc(uid);
+      final snapshot = await docRef.get();
+
+      if (!snapshot.exists) {
+        // Buat dokumen default jika belum ada
+        await docRef.set({
+          'name': 'Nama Pengguna',
+          'phone': 'No. Telepon',
+          'address': 'Alamat',
+        });
+        print('Created default user profile for $uid');
       }
+
+      userName.value = snapshot.data()?['name'] ?? 'Nama Pengguna';
+      phoneNumber.value = snapshot.data()?['phone'] ?? 'No. Telepon';
+      address.value = snapshot.data()?['address'] ?? 'Alamat';
+    } catch (e) {
+      print('Error fetching user data: $e');
+      Get.snackbar('Error', 'Gagal mengambil data profil.');
     }
   }
 
   Future<void> updateUserData(String field, String value) async {
-    String? userId = _auth.currentUser?.uid;
-    if (userId != null) {
-      try {
-        // Reference to the user document
-        DocumentReference userDocRef =
-            _firestore.collection('profile').doc(userId);
+    final uid = FirebaseAuth.instance.currentUser?.uid;
 
-        // Check if the document exists
-        var userDoc = await userDocRef.get();
-        if (userDoc.exists) {
-          // If document exists, update the specified field
-          await userDocRef.update({field: value});
-        } else {
-          // If document does not exist, create it with the specified field
-          await userDocRef.set({
-            'name': field == 'name' ? value : userName.value,
-            'phone': field == 'phone' ? value : phoneNumber.value,
-            'address': field == 'address' ? value : address.value,
-          });
-        }
+    if (uid == null) {
+      print('No UID found. User might not be logged in.');
+      return;
+    }
 
-        // Update local values to reflect changes in the UI
-        if (field == 'name') userName.value = value;
-        if (field == 'phone') phoneNumber.value = value;
-        if (field == 'address') address.value = value;
+    try {
+      final docRef = _firestore.collection('users').doc(uid);
 
-        _logger.i("User $field updated to $value");
-      } catch (e) {
-        _logger.e("Error updating $field: $e");
-        Get.snackbar('Error', 'Failed to update $field: $e',
-            snackPosition: SnackPosition.BOTTOM);
+      // Check if the document exists before updating
+      final snapshot = await docRef.get();
+      if (!snapshot.exists) {
+        print('Document not found. Creating default document.');
+        await docRef.set({
+          'name': 'Nama Pengguna',
+          'phone': 'No. Telepon',
+          'address': 'Alamat',
+        });
       }
+
+      // Update the specific field
+      await docRef.update({field: value});
+      print('Updated $field to $value');
+    } catch (e) {
+      print('Error updating $field: $e');
+      Get.snackbar('Error', 'Gagal memperbarui data $field.');
     }
   }
 
-  // Navigate to Main Menu
-  void navigateToMainMenu() {
-    Get.toNamed('/mainMenu'); // Replace '/mainMenu' with your main menu route
+  void navigateToNavbar() {
+    Get.toNamed('/navbar');
   }
 
-  // Logout function
   Future<void> logout() async {
     try {
       await _auth.signOut();
       await _googleSignIn.signOut();
 
-      // Check if the user is currently signed in with Google
       if (await _googleSignIn.isSignedIn()) {
         await _googleSignIn.disconnect();
       }

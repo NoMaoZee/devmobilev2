@@ -11,6 +11,14 @@ class RegisterView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Get.back(),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -19,7 +27,6 @@ class RegisterView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
-
                 const Text(
                   'Hello! Register to get started',
                   style: TextStyle(
@@ -28,86 +35,86 @@ class RegisterView extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
 
                 // Username Input
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  onChanged: (value) => controller.username.value = value,
+                  decoration: const InputDecoration(
                     labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   ),
                 ),
                 const SizedBox(height: 16),
 
                 // Email Input
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  onChanged: (value) => controller.email.value = value,
+                  decoration: const InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   ),
                 ),
                 const SizedBox(height: 16),
 
                 // Address Input
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  onChanged: (value) => controller.address.value = value,
+                  decoration: const InputDecoration(
                     labelText: 'Address',
-                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   ),
                 ),
                 const SizedBox(height: 16),
 
                 // Password Input
-                const TextField(
+                TextField(
                   obscureText: true,
-                  decoration: InputDecoration(
+                  onChanged: (value) => controller.password.value = value,
+                  decoration: const InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   ),
                 ),
                 const SizedBox(height: 16),
 
                 // Confirm Password Input
-                const TextField(
+                TextField(
                   obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm password',
-                    labelStyle: TextStyle(color: Colors.black),
+                  onChanged: (value) =>
+                      controller.confirmPassword.value = value,
+                  decoration: const InputDecoration(
+                    labelText: 'Confirm Password',
                     border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   ),
                 ),
                 const SizedBox(height: 24),
 
-                // Register Button with Scale Animation
-                Obx(
-                  () => Transform.scale(
-                    scale: controller.registerButtonScale.value,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {
-                          controller.registerButtonScale.value = 0.95;
-                          Future.delayed(const Duration(milliseconds: 100), () {
-                            controller.registerButtonScale.value = 1.0;
-                            controller.register();
-                          });
-                        },
-                        child: const Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
+                // Register Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: controller.validateAndRegister,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
+                    ),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                 ),
@@ -125,10 +132,7 @@ class RegisterView extends StatelessWidget {
                     ),
                     label: const Text(
                       'Register with Google',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
