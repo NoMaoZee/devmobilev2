@@ -10,7 +10,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     // Automatically navigate after 6 seconds
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(const Duration(seconds: 4), () {
+      Timer(const Duration(seconds: 3), () {
         controller.navigateToPhoneInput();
       });
     });
